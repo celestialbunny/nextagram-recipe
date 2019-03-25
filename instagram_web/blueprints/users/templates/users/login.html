@@ -1,0 +1,9 @@
+{% include "_layout.html" %}
+<div class="container">
+	{% include "login_form.html" %}
+	<div class="border-top pt-3">
+		<small class="text-muted">
+			Do not have an account ? <a class="ml-2" href="{{ url_for('users.get_signup') }}">Register</a>
+		</small>
+	</div>
+</div>

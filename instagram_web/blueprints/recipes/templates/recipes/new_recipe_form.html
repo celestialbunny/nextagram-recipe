@@ -1,0 +1,24 @@
+<form method="POST" action="{{ url_for('recipes.create_recipe') }}" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+        {% for field in form if field.name != "csrf_token" %}
+        {% if field.name != "btn" %}
+            <div class="modal-body">
+                <div class="form-group">
+                    {{ field.label(class="form-control-label form-control-lg") }}
+                    {{ field(class="form-control") }}
+                    {% for error in field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{ form.btn(class="btn btn-info") }}
+            </div>
+        {% endif %}
+        {% endfor %}
+    </fieldset>
+</form>

@@ -1,0 +1,19 @@
+<div class="container-fluid">
+	<div class="row">
+		{% for recipe in recipes %}
+		<div class="col-sm-12 col-md-6 col-lg-4 my-4">
+			<div class="parent">
+				<div class="card" style="background-image: url('{{ recipe.picture }}')">
+					<div class="card-content">
+						<h3 class="card-title">{{ recipe.title }}</h3>
+						<div class="card-author">
+							By <a href="{{url_for('users.that_profile', user=recipe.user_id)}}">{{ recipe.user.username }}</a>, {{ recipe.updated_at.strftime('%Y-%m-%d') }}
+						</div>
+						<a class="btn btn-info edit" href="{{ url_for('recipes.read_recipe', recipe_id=recipe.id) }}">View</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>

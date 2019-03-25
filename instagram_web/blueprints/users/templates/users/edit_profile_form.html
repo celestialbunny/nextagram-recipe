@@ -1,0 +1,30 @@
+{% block content %}
+<form method="POST" action="{{ url_for('users.edit_profile') }}" enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+
+    {% for field in form if field.name != "csrf_token" %}
+    <div class="form-group">
+        {% if field.name != "btn" %}
+        {{ field.label(class="form-control-label form-control-lg") }}
+        {% endif %}
+        {% if field.name != "btn" %}
+            {% if field.name == "username" %}
+                {{ field(class="form-control", value=current_user.username) }}
+            {% elif field.name == "email" %}
+                {{ field(class="form-control", value=current_user.email) }}
+            {% elif field.name == "password" %}
+                {{ field(class="form-control", value=current_user.password) }}
+            {% elif field.name == "new_password" %}
+                {{ field(class="form-control", value=current_user.password) }}
+            {% endif %}
+        {% else %}
+        {{ field(class="btn btn-outline-info") }}
+        {% endif %}
+        {% for error in field.errors %}
+        {{ error }}
+        {% endfor %}
+    </div>
+    {% endfor %}
+</form>
+{% endblock content %}

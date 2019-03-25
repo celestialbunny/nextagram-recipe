@@ -1,0 +1,14 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+{% if current_user.is_anonymous %}
+	{% include "welcome.html" %}
+{% else %}
+	{% if recipes %}
+		{% include "show_recipe_cards.html" %}
+	{% else %}
+		<h5>No Recipes, start to create one then!</h5>
+    {% endif %}
+    {% include "fade_recipe_form.html" %}
+{% endif %}
+{% endblock %}
