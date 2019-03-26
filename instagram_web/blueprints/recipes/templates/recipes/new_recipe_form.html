@@ -10,8 +10,12 @@
         {% if field.name != "btn" %}
             <div class="modal-body">
                 <div class="form-group">
-                    {{ field.label(class="form-control-label form-control-lg") }}
-                    {{ field(class="form-control") }}
+                    {% if field.name == "description" %}
+                        <textarea name="content" id="editor" rows="100"></textarea>
+                    {% else %}
+                        {{ field.label(class="form-control-label form-control-lg") }}
+                        {{ field(class="form-control") }}
+                    {% endif %}
                     {% for error in field.errors %}
                         {{ error }}
                     {% endfor %}
@@ -19,20 +23,11 @@
             </div>
         {% else %}
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                {{ form.btn(class="btn btn-info") }}
+                {{ form.btn(class="btn btn-primary") }}
             </div>
         {% endif %}
         {% endfor %}
     </fieldset>
-    <textarea cols="80" rows="10" id="content" name="content"> 
-            &lt;h1&gt;Article Title&lt;/h1&gt;
-            &lt;p&gt;Here's some sample text&lt;/p&gt;
-          </textarea>
-          <script type="text/javascript">
-            CKEDITOR.replace( '.content' );
-          </script>
-          
-<script src="../../../../../instagram_web/static/js/vendor/ckeditor.js"></script>
 </form>
+{% include "ckeditor.html" %}
 {% endblock %}

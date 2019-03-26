@@ -45,19 +45,21 @@ def post_create_recipe():
 	if file and allowed_file(file.filename):
 		file.filename = secure_filename(file.filename)
 		output = upload_file_to_s3(file, app.config['S3_BUCKET'])
-		if recipe_form.validate_on_submit():
-			new_recipe = Recipe(
-				user_id = current_user.id,
-				picture=output,
-				title = recipe_form.data['title'],
-				description = recipe_form.data['description']
-			)
-			# breakpoint()
-			new_recipe.save()
-			flash("New recipe created", "success")
-			return redirect(url_for('users.index'))
-		flash("something went wrong, please try again", "warning")
-		return render_template('new_recipe_form.html', recipe_form=recipe_form)
+		# Have to disable as need to use ckeditor
+		# if recipe_form.validate_on_submit():
+		result = request.form
+		new_recipe = Recipe(
+			user_id = current_user.id,
+			picture=output,
+			title = result['title'],
+			description = result['content']
+		)
+		# breakpoint()
+		new_recipe.save()
+		flash("New recipe created", "success")
+		return redirect(url_for('users.index'))
+	flash("something went wrong, please try again", "warning")
+	return render_template('new_recipe_form.html', recipe_form=recipe_form)
 
 @recipes_blueprint.route('/<int:recipe_id>', methods=['GET'])
 def read_recipe(recipe_id):
@@ -72,29 +74,32 @@ def edit_recipe(recipe_id):
 	form = UpdateRecipeForm()
 	that_recipe = Recipe.get_or_none(Recipe.id == recipe_id)
 	recipe_owner = User.get_or_none(User.id == that_recipe.user_id)
-	if form.validate_on_submit():
-		if recipe_owner != current_user:
-			flash("Only owner of the recipe can amend the details", "danger")
+	# cannot use form.validate on submit as it only captures form, hence the CKEditor field details will fail
+	# However
+	# if form.validate_on_submit():
+	result = request.form
+	if recipe_owner != current_user:
+		flash("Only owner of the recipe can amend the details", "danger")
+		return redirect(url_for('recipes.read_recipe', recipe_id=recipe_id))
+	else:
+		if "picture" not in request.files:
+			flash("No picture key in request.files", 'danger')
 			return redirect(url_for('recipes.read_recipe', recipe_id=recipe_id))
-		else:
-			if "picture" not in request.files:
-				flash("No picture key in request.files", 'danger')
-				return redirect(url_for('recipes.read_recipe', recipe_id=recipe_id))
-			file = request.files['picture']
-			if file.filename == '':
-				flash("Please select a file", 'danger')
-				return redirect(url_for('users.update_user'))
-			if file and allowed_file(file.filename):
-				file.filename = secure_filename(file.filename)
-				output = upload_file_to_s3(file, app.config['S3_BUCKET'])
-			updated_recipe = Recipe.update(
-				title=form.data['title'],
-				description=form.data['description'],
-				picture=output
-			).where(Recipe.user_id == recipe_owner.id)
-			updated_recipe.execute()
-			flash("Recipe updated successfully", "success")
-			return redirect(url_for('recipes.read_recipe', recipe_id=recipe_id))
+		file = request.files['picture']
+		if file.filename == '':
+			flash("Please select a file", 'danger')
+			return redirect(url_for('users.update_user'))
+		if file and allowed_file(file.filename):
+			file.filename = secure_filename(file.filename)
+			output = upload_file_to_s3(file, app.config['S3_BUCKET'])
+		updated_recipe = Recipe.update(
+			title=result['title'],
+			description=result['content'],
+			picture=output
+		).where(Recipe.user_id == recipe_owner.id)
+		updated_recipe.execute()
+		flash("Recipe updated successfully", "success")
+		return redirect(url_for('recipes.read_recipe', recipe_id=recipe_id))
 	return render_template('read_that_recipe.html', recipe=that_recipe, form=form)
 
 @recipes_blueprint.route('/delete/<int:recipe_id>', methods=['POST'])

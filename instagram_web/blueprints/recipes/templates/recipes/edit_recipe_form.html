@@ -30,7 +30,7 @@
                                     {{ field(class="form-control", value=recipe.title) }}
                                 {% endif %}
                                 {% if field.name == "description" %}
-                                    <textarea class="form-control" name="description" id="description" cols="30" rows="5">{{ recipe.description }}</textarea>
+                                    <textarea name="content" id="editor" rows="200" cols="20">{{ recipe.description }}</textarea>
                                 {% endif %}
                                 <!-- end the if block -->
                                 {% for error in field.errors %}

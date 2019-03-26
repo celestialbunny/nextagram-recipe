@@ -22,7 +22,7 @@ users_blueprint = Blueprint('users',
 """Start of index"""
 @users_blueprint.route('/', methods=["GET"])
 def index():
-	recipes = Recipe.select()
+	recipes = Recipe.select().group_by(Recipe.created_at).order_by(Recipe.created_at.desc())
 	recipe_form = RecipeForm()
 	if current_user.is_authenticated:
 		try:
@@ -132,5 +132,5 @@ def edit_profile():
 def that_profile(user):
     # that_user = User.get_or_none(User.id == user_id)
     that_user = User.get_or_none(User.id == user)
-    recipes = Recipe.select().where(Recipe.user_id == user)
+    recipes = Recipe.select().where(Recipe.user_id == user).order_by(Recipe.created_at.desc())
     return render_template('display_user.html', user=that_user, recipes=recipes)

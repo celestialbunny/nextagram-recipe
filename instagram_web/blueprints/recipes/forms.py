@@ -7,7 +7,6 @@ class RecipeForm(FlaskForm):
 	picture = FileField(
 		'Picture',
 		validators=[
-			DataRequired(),
 			FileAllowed(['jpg', 'png', 'jpeg'])
 		]
 	)

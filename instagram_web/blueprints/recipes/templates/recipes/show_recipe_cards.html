@@ -7,7 +7,7 @@
 					<div class="card-content">
 						<h3 class="card-title">{{ recipe.title }}</h3>
 						<div class="card-author">
-							By <a href="{{url_for('users.that_profile', user=recipe.user_id)}}">{{ recipe.user.username }}</a>, {{ recipe.updated_at.strftime('%Y-%m-%d') }}
+							By <a href="{{url_for('users.that_profile', user=recipe.user_id)}}">{{ recipe.user.username }}</a>, {{ recipe.updated_at.strftime('%d-%m-%Y') }}
 						</div>
 						<a class="btn btn-info edit" href="{{ url_for('recipes.read_recipe', recipe_id=recipe.id) }}">View</a>
 					</div>

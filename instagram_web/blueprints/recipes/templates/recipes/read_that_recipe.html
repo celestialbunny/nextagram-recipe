@@ -6,24 +6,26 @@
         <div class="card mb-3">
             <div class="card-header">Posted by <a
                     href="{{url_for('users.that_profile', user=recipe.user_id)}}">{{ recipe.user.username }}</a> on
-                {{ recipe.updated_at.strftime('%Y-%m-%d') }}
+                {{ recipe.updated_at.strftime('%d-%m-%Y') }}
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ recipe.title}}</h5>
                 <img src="{{ recipe.picture }}" alt="" srcset="">
                 <p class="card-text">
-                    {{ recipe.description}}
+                    {{ recipe.description|safe}}
                 </p>
             </div>
             <!-- Perform the editing of current webpage for non-owner -->
             {% if recipe.user_id == current_user.id %}
-                {% include "edit_recipe_form.html" %}
-                {% include "delete_recipe_form.html" %}
+                <div class="modal-footer">
+                    {% include "edit_recipe_form.html" %}
+                    {% include "delete_recipe_form.html" %}
+                </div>
             {% endif %}
             <!-- The to-do steps for the recipe -->
         </div>
     </div>
 </div>
-
-
+<!-- Somewhat loading from assests don't work as expected although captured in js, already manipulated at the static > js > vendor > ckeditor.js... however others such as bootstrap and popper is displayed and captured -->
+{% include "ckeditor.html" %}
 {% endblock content %}
