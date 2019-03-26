@@ -24,9 +24,16 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@recipes_blueprint.route('/create', methods=["GET"])
+@login_required
+def get_create_recipe():
+	recipe_form = RecipeForm()
+	
+	return render_template('new_recipe_form.html', form=recipe_form)
+
 @recipes_blueprint.route('/create', methods=["POST"])
 @login_required
-def create_recipe():
+def post_create_recipe():
 	recipe_form = RecipeForm()
 	if "picture" not in request.files:
 		flash("No picture key in request.files", 'danger')
@@ -50,7 +57,7 @@ def create_recipe():
 			flash("New recipe created", "success")
 			return redirect(url_for('users.index'))
 		flash("something went wrong, please try again", "warning")
-		return render_template('index.html', recipe_form=recipe_form)
+		return render_template('new_recipe_form.html', recipe_form=recipe_form)
 
 @recipes_blueprint.route('/<int:recipe_id>', methods=['GET'])
 def read_recipe(recipe_id):
@@ -68,11 +75,11 @@ def edit_recipe(recipe_id):
 	if form.validate_on_submit():
 		if recipe_owner != current_user:
 			flash("Only owner of the recipe can amend the details", "danger")
-			return redirect(url_for('read_recipe', recipe_id=recipe_id))
+			return redirect(url_for('recipes.read_recipe', recipe_id=recipe_id))
 		else:
 			if "picture" not in request.files:
 				flash("No picture key in request.files", 'danger')
-				return redirect(url_for('users.update_user'))
+				return redirect(url_for('recipes.read_recipe', recipe_id=recipe_id))
 			file = request.files['picture']
 			if file.filename == '':
 				flash("Please select a file", 'danger')

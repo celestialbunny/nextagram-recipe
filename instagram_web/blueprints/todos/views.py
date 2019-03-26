@@ -13,11 +13,9 @@ from flask import render_template, redirect, url_for, flash, request, session, e
 from flask_login import login_user, logout_user, login_required, current_user
 from app import app
 
-todos_blueprint = Blueprint('todos',
-							__name__,
-							template_folder='templates/todos')
+todos_blueprint = Blueprint('todos', __name__, template_folder='templates/todos')
 
-@todos_blueprint.route('/create/<int:recipe_id>', mthods=['POST'])
+@todos_blueprint.route('/create/<int:recipe_id>', methods=['POST'])
 def create_todo(recipe_id):
     that_recipe = Recipe.get_or_none(Recipe.id == recipe_id)
     if that_recipe == None:

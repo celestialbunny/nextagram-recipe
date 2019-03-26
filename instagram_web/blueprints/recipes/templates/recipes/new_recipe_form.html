@@ -1,4 +1,8 @@
-<form method="POST" action="{{ url_for('recipes.create_recipe') }}" enctype="multipart/form-data">
+{% include "_layout.html" %}
+{% block content %}
+
+<script src="../../../../../instagram_web/static/js/vendor/ckeditor.js"></script>
+<form method="POST" action="{{ url_for('recipes.post_create_recipe') }}" enctype="multipart/form-data">
     {{ form.csrf_token }}
     {{ form.hidden_tag() }}
     <fieldset class="form-group">
@@ -21,4 +25,14 @@
         {% endif %}
         {% endfor %}
     </fieldset>
+    <textarea cols="80" rows="10" id="content" name="content"> 
+            &lt;h1&gt;Article Title&lt;/h1&gt;
+            &lt;p&gt;Here's some sample text&lt;/p&gt;
+          </textarea>
+          <script type="text/javascript">
+            CKEDITOR.replace( '.content' );
+          </script>
+          
+<script src="../../../../../instagram_web/static/js/vendor/ckeditor.js"></script>
 </form>
+{% endblock %}

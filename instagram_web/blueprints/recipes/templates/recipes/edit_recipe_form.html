@@ -1,24 +1,52 @@
-<form method="POST" action="{{ url_for('recipes.edit_recipe', recipe_id=recipe.id) }}" enctype="multipart/form-data">
-    {{ form.csrf_token }}
-    {{ form.hidden_tag() }}
-    <fieldset class="form-group">
-        {% for field in form if field.name != "csrf_token" %}
-        {% if field.name != "btn" %}
-            <div class="modal-body">
-                <div class="form-group">
-                    {{ field.label(class="form-control-label form-control-lg") }}
-                    {{ field(class="form-control") }}
-                    {% for error in field.errors %}
-                        {{ error }}
-                    {% endfor %}
-                </div>
+<btn class="btn btn-warning" data-toggle="modal" data-target="#edit">Edit Recipe</btn>
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="recipe_label"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recipe_label">Edit Current Recipe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        {% else %}
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                {{ form.btn(class="btn btn-info") }}
-            </div>
-        {% endif %}
-        {% endfor %}
-    </fieldset>
-</form>
+            <form method="POST" action="{{ url_for('recipes.edit_recipe', recipe_id=recipe.id) }}" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <div class="modal-body">
+                    {% for field in form if field.name != "csrf_token" %}
+                    {% if field.name != "btn" %}
+                            <div class="form-group">
+                                {{ field.label(class="form-control-label form-control-lg") }}
+                                <!-- if fiend.something == title, need to insert title -->
+                                {% if field.name == "picture" %}
+                                    {{ field(class="form-control", value=recipe.picture) }}
+                                    <figure>
+                                        <img src="{{recipe.picture}}" class="small-preview" alt="preview">
+                                        <figcaption>Current photo</figcaption>
+                                    </figure>
+                                {% endif %}
+                                {% if field.name == "title" %}
+                                    {{ field(class="form-control", value=recipe.title) }}
+                                {% endif %}
+                                {% if field.name == "description" %}
+                                    <textarea class="form-control" name="description" id="description" cols="30" rows="5">{{ recipe.description }}</textarea>
+                                {% endif %}
+                                <!-- end the if block -->
+                                {% for error in field.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                {{ form.btn(class="btn btn-info") }}
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
