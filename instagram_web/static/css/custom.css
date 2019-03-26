@@ -69,3 +69,8 @@
 .card:hover .card-content {
     display: grid;
 }
+
+.small-preview {
+    width: 100px;
+    height: 100px;
+}
