@@ -1,14 +1,14 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('fonts/icomoon.ttf?xn3so9') format('truetype'),
-    url('fonts/icomoon.woff?xn3so9') format('woff'),
-    url('fonts/icomoon.svg?xn3so9#icomoon') format('svg');
+    url('fonts/icomoon.ttf?cm920b') format('truetype'),
+    url('fonts/icomoon.woff?cm920b') format('woff'),
+    url('fonts/icomoon.svg?cm920b#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-.icon {
+i {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
@@ -23,30 +23,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-smile:before {
-  content: "\e9e1";
+.icon-home3:before {
+  content: "\e902";
 }
-.icon-tongue:before {
-  content: "\e9e3";
+.icon-pencil:before {
+  content: "\e905";
 }
-.icon-sad:before {
-  content: "\e9e5";
+.icon-profile:before {
+  content: "\e923";
 }
-.icon-shocked:before {
-  content: "\e9f1";
+.icon-file-picture:before {
+  content: "\e927";
 }
-.icon-confused:before {
-  content: "\e9f5";
+.icon-key:before {
+  content: "\e98d";
 }
-.icon-google3:before {
-  content: "\ea8a";
+.icon-spoon-knife:before {
+  content: "\e9a3";
 }
-.icon-facebook2:before {
-  content: "\ea91";
+.icon-bin:before {
+  content: "\e9ac";
 }
-.icon-twitter:before {
-  content: "\ea96";
+.icon-switch:before {
+  content: "\e9b6";
 }
-.icon-github:before {
-  content: "\eab0";
+.icon-plus:before {
+  content: "\ea0a";
 }
