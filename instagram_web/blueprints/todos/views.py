@@ -17,7 +17,7 @@ todos_blueprint = Blueprint('todos',
 							__name__,
 							template_folder='templates/todos')
 
-@todos_blueprint.route('/create/<int:recipe_id>', mthods=['POST'])
+@todos_blueprint.route('/create/<int:recipe_id>', methods=['POST'])
 def create_todo(recipe_id):
     that_recipe = Recipe.get_or_none(Recipe.id == recipe_id)
     if that_recipe == None:
