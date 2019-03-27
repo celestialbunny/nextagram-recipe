@@ -1,6 +1,5 @@
 from models.base_model import BaseModel
 from models.user import User
-from models.todo import Todo
 from peewee import CharField, IntegerField, TextField, ForeignKeyField
 
 class Recipe(BaseModel):

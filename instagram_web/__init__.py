@@ -4,7 +4,6 @@ from flask_login import LoginManager
 from flask_assets import Environment, Bundle
 from instagram_web.blueprints.users.views import users_blueprint
 from instagram_web.blueprints.recipes.views import recipes_blueprint
-from instagram_web.blueprints.todos.views import todos_blueprint
 from .util.assets import bundles
 import os
 # from instagram_web.util.google_oauth import oauth
@@ -23,7 +22,6 @@ login_manager.login_view = 'users.login'
 
 app.register_blueprint(users_blueprint, url_prefix="/users")
 app.register_blueprint(recipes_blueprint, url_prefix="/recipes")
-app.register_blueprint(todos_blueprint, url_prefix="/todos")
 
 @login_manager.user_loader
 def load_user(user_id):
