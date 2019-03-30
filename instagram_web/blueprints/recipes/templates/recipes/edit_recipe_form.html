@@ -20,11 +20,23 @@
                                 {{ field.label(class="form-control-label form-control-lg") }}
                                 <!-- if fiend.something == title, need to insert title -->
                                 {% if field.name == "picture" %}
-                                    {{ field(class="form-control", value=recipe.picture) }}
-                                    <figure>
-                                        <img src="{{recipe.picture}}" class="small-preview" alt="preview">
-                                        <figcaption>Current photo</figcaption>
-                                    </figure>
+                                    <input class="form-control mb-3" id="picture" name="picture" type="file">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <figure>
+                                                    <img id="image" class="small-preview" alt="no photo selected">
+                                                    <figcaption>Uploaded photo</figcaption>
+                                                </figure>
+                                            </div>
+                                            <div class="col-6">
+                                                <figure>
+                                                    <img src="{{recipe.picture}}" class="small-preview" alt="preview">
+                                                    <figcaption>Current photo</figcaption>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
                                 {% endif %}
                                 {% if field.name == "title" %}
                                     {{ field(class="form-control", value=recipe.title) }}
@@ -50,3 +62,17 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById("picture").onchange = function () {
+        var reader = new FileReader();
+    
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("image").src = e.target.result;
+        };
+    
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    };
+</script>

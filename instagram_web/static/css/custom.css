@@ -71,10 +71,14 @@
 }
 
 .small-preview {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: auto;
 }
 
 .ck-editor__editable {
     min-height: 20em;
+}
+
+#image {
+    position: relative;
 }
