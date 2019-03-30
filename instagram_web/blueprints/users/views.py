@@ -44,6 +44,7 @@ def get_signup():
 def post_signup():
 	form = RegistrationForm()
 	if form.validate_on_submit():
+		session['username'] = request.form['username']
 		# if unique constraint happens, using or as we just need to know whether one of them is taken
 		user = User.get_or_none(User.username == form.data['username'])
 		email = User.get_or_none(User.email == form.data['email'])
@@ -88,6 +89,7 @@ def post_login():
 @users_blueprint.route('/logout')
 @login_required
 def logout():
+	session.pop('username', None)
 	logout_user()
 	flash("Log out successfully!", "success")
 	return redirect(url_for('users.index'))
@@ -130,7 +132,7 @@ def edit_profile():
 
 @users_blueprint.route('/<int:user>', methods=["GET"])
 def that_profile(user):
-    # that_user = User.get_or_none(User.id == user_id)
-    that_user = User.get_or_none(User.id == user)
-    recipes = Recipe.select().where(Recipe.user_id == user).order_by(Recipe.created_at.desc())
-    return render_template('display_user.html', user=that_user, recipes=recipes)
+	# that_user = User.get_or_none(User.id == user_id)
+	that_user = User.get_or_none(User.id == user)
+	recipes = Recipe.select().where(Recipe.user_id == user).order_by(Recipe.created_at.desc())
+	return render_template('display_user.html', user=that_user, recipes=recipes)

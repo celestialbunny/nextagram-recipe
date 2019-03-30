@@ -75,7 +75,6 @@ def edit_recipe(recipe_id):
 	that_recipe = Recipe.get_or_none(Recipe.id == recipe_id)
 	recipe_owner = User.get_or_none(User.id == that_recipe.user_id)
 	# cannot use form.validate on submit as it only captures form, hence the CKEditor field details will fail
-	# However
 	# if form.validate_on_submit():
 	result = request.form
 	if recipe_owner != current_user:
